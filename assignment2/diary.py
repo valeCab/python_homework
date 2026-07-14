@@ -7,7 +7,7 @@ try:
             line = input(prompt)
             file.write(line + "\n")
 
-            if line == "done for now ":
+            if line == "done for now":
                 break 
             prompt = "What else? "
 

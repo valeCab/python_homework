@@ -62,11 +62,11 @@ def employee_find_2(employee_id):
 #Task7 Sort the Rows:
 def sort_by_last_name(): 
     last_name_column = column_index("last_name")
+    
     employees["rows"].sort(
         key = lambda row: row[last_name_column]
     )
     return employees["rows"]
-sort_by_last_name()
 print(employees)
 
 #Task8 Create a Dict:
@@ -90,6 +90,7 @@ def all_employees_dict():
         id2 = row[employee_id_column]
         all_employees[id2] = dict2
     return all_employees
+print(all_employees_dict())
 
 #Task10 Use the os Module: 
 import os 
@@ -103,8 +104,8 @@ import custom_module
 
 def set_that_secret(secret):
     custom_module.set_secret(secret)
-set_that_secret("hello")
-print(custom_module.secret)
+
+
 
 #Task12 Read Minutes:
 import csv 
@@ -155,7 +156,7 @@ def create_minutes_set():
     return minutes_set
 
 minutes_set = create_minutes_set()
-print(minutes_set)
+
 
 
 
@@ -174,17 +175,17 @@ def create_minutes_list():
     )
     return minutes_list
 minutes_list = create_minutes_list()
-print(minutes_list)
+
 
 #Task15 Write Out Sorted List
 def write_sorted_list():
-    sorted_minutes = sorted(minutes_list, key = lambda x: x[1])
+    minutes_list.sort(key = lambda x: x[1])
     converted_list = list(
         map(
             lambda x: (
                 x[0],
                 datetime.strftime(x[1], "%B %d, %Y")
-            ), sorted_minutes
+            ), minutes_list
         )
     )
     with open("minutes.csv", "w", newline="") as file:
@@ -192,4 +193,3 @@ def write_sorted_list():
         writer.writerow(minutes1["fields"])
         writer.writerows(converted_list)
     return converted_list
-write_sorted_list()
