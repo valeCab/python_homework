@@ -2,6 +2,7 @@
 
 #Task2 Read a CSV File: 
 import csv 
+import traceback
 def read_employees():
     employee = {}
     rows = []
@@ -16,7 +17,20 @@ def read_employees():
                     rows.append(row)
             employee["rows"] = rows 
     except Exception as e:
-        print("Error: The csv file was not found.")
+        trace_back = traceback.extract_tb(e.__traceback__)
+        stack_trace = []
+
+        for trace in trace_back:
+            stack_trace.append(f"File:{trace[0]}, Line:{trace [1]}, Func.Name: {trace[2]}, Message: {trace[3]}"  
+            )
+        print(f"Exception type: {type(e).__name__}")
+
+        message = str(e)
+
+        if message: 
+            print(f"Exception message: {message}")
+        print(f"Stack trace: {stack_trace}")
+        exit()
 
     return employee
 employees = read_employees()
@@ -97,29 +111,46 @@ import csv
 def read_csv_file(filename):
     data = {}
     rows = []
-    with open(filename, "r") as file:
-        reader = csv.reader(file)
-        for index, row in enumerate(reader):
-            if index == 0:
-                data["fields"] = row
-            else: 
-                rows.append(tuple(row))
-    data["rows"] = rows
-    return data 
+    try: 
+        with open(filename, "r") as file:
+            reader = csv.reader(file)
+        
+            for index, row in enumerate(reader):
+                if index == 0:
+                    data["fields"] = row
+                else: 
+                    rows.append(tuple(row))
+        data["rows"] = rows
+        return data 
+    except Exception as e:
+        trace_back = traceback.extract_tb(e.__traceback__)
+        stack_trace = []
 
-def read_minutes(): 
+        for trace in trace_back:
+            stack_trace.append(
+                f"File: {trace[0]}, Line: {trace[1]}, Func.Name: {trace[2]}, Message: {trace[3]}"
+            )
+
+        print(f"Exception type: {type(e).__name__}")
+
+        message = str(e)
+
+        if message:
+            print(f"Exception message: {message}")
+
+        print(f"Stack trace: {stack_trace}")
+
+        exit()
+
+def read_minutes():
     minutes1 = read_csv_file("../csv/minutes1.csv")
     minutes2 = read_csv_file("../csv/minutes2.csv")
     return minutes1, minutes2
-minutes1, minutes2 = read_minutes()
-print(minutes1)
-print(minutes2)
 
+minutes1, minutes2 = read_minutes()
 
 #Task13 Create Minutes:
 def create_minutes_set():
-    set(minutes1["rows"])
-    set(minutes2["rows"])
     minutes_set = set(minutes1["rows"]) | set(minutes2["rows"])
     return minutes_set
 
@@ -147,13 +178,13 @@ print(minutes_list)
 
 #Task15 Write Out Sorted List
 def write_sorted_list():
-    minutes_list.sort(key=lambda x: x[1])
+    sorted_minutes = sorted(minutes_list, key = lambda x: x[1])
     converted_list = list(
         map(
             lambda x: (
                 x[0],
                 datetime.strftime(x[1], "%B %d, %Y")
-            ), minutes_list
+            ), sorted_minutes
         )
     )
     with open("minutes.csv", "w", newline="") as file:
