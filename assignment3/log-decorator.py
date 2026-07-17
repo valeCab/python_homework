@@ -10,9 +10,9 @@ def logger_decorator(func):
         logger.info(f"function: {func.__name__}")
 
         if args: 
-            logger.info(f"position parameter: {list(args)}")
+            logger.info(f"positional parameters: {list(args)}")
         else: 
-            logger.info("position parameters: none")
+            logger.info("positional parameters: none")
         
         if kwargs: 
             logger.info(f"keyword parameters: {kwargs}")
@@ -27,11 +27,14 @@ def logger_decorator(func):
 @logger_decorator
 def hello():
     print("Hello everyone!")
+hello()
 
 @logger_decorator
 def many_args(*args):
     return True
+many_args(1,2,3)
 
 @logger_decorator
 def many_kwargs(**kwargs):
     return logger_decorator
+many_kwargs(name="Kay", age=29)

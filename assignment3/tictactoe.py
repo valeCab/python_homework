@@ -16,7 +16,7 @@ class Board:
         self.turn = "X"
         self.last_move = None
 
-    # FIXED: Indented correctly to be inside the Board class
+    
     def __str__(self):
         lines = []
         lines.append(f" {self.board_array[0][0]} | {self.board_array[0][1]} | {self.board_array[0][2]} \n")
@@ -38,7 +38,7 @@ class Board:
             raise TictactoeException("That spot is taken.")
             
         self.board_array[row][column] = self.turn
-        self.last_move = move_string # FIXED: Correctly tracking last_move as requested
+        self.last_move = move_string 
         
         if self.turn == "X":
             self.turn = "O"
@@ -46,8 +46,7 @@ class Board:
             self.turn = "X"
     
     def whats_next(self):
-        # FIXED: Simplified, foolproof tie-game check
-        # If there are no spaces left anywhere on the board, it's a tie
+        
         cat = all(cell != " " for row in self.board_array for cell in row)
         
         win = False
@@ -71,7 +70,7 @@ class Board:
                 if self.board_array[0][2] == self.board_array[1][1] == self.board_array[2][0]:
                     win = True
                     
-        # Process outcomes in correct priority order: Win takes priority over a Tie
+        
         if win:
             if self.turn == "O":
                 return (True, "X wins!")
@@ -82,3 +81,23 @@ class Board:
             return (True, "Cat's Game.")
             
         return (False, f"{self.turn}'s turn.")
+    
+if __name__ == "__main__":
+    board = Board()
+    game_over = False
+
+    while not game_over: 
+        print(board)
+
+        finished, message = board.whats_next()
+        
+        if finished: 
+            print(board)
+            print(message)
+            break 
+
+        move = input(f"{message} Enter your move: ")
+        try: 
+            board.move(move)
+        except TictactoeException as e: 
+            print(e.message)
