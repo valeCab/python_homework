@@ -80,6 +80,7 @@ import numpy as np
 
 #1. 
 dirty_data = pd.read_csv("dirty_data.csv")
+print(dirty_data)
 clean_data = dirty_data.copy()
 
 #2. 
@@ -101,7 +102,7 @@ clean_data["Salary"] = clean_data["Salary"].fillna(clean_data["Salary"].median()
 print(clean_data)
 
 #6.
-clean_data["Hire Date"] = clean_data(
+clean_data["Hire Date"] = (
     clean_data["Hire Date"].astype(str).str.strip()
 )
 clean_data["Hire Date"] = pd.to_datetime(
@@ -110,7 +111,7 @@ clean_data["Hire Date"] = pd.to_datetime(
 print(clean_data)
 
 #7.
-clean_data["Name"] = clean_data["Name"].astype(str).str.strip()
+clean_data["Name"] = clean_data["Name"].astype(str).str.strip().str.upper()
 clean_data["Department"] = (
     clean_data["Department"].astype(str).str.strip().str.upper()
 )
