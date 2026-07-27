@@ -40,11 +40,11 @@ additional_employees = [
     {'Name': 'Eve', 'Age': 28, 'City': 'Miami', 'Salary': 60000},
     {'Name': 'Frank', 'Age': 40, 'City': 'Seattle', 'Salary': 95000},
 ]
-with open("additional_employees.json", "w") as f:
-    json.dump(additional_employees, f)
+
+additional_employees.to_json("additional_employees.json", orient="records", indent=4)
 
 json_employees = pd.read_json("additional_employees.json")
-print(json_employees)
+
 
 #3. 
 
@@ -74,8 +74,6 @@ import numpy as np
 
 #1. 
 dirty_data = pd.read_csv("dirty_data.csv")
-print(dirty_data)
-
 clean_data = dirty_data.copy()
 
 #2. 
@@ -94,7 +92,7 @@ print(clean_data)
 #5. 
 clean_data["Age"] = clean_data["Age"].fillna(clean_data["Age"].mean())
 clean_data["Salary"] = clean_data["Salary"].fillna(clean_data["Salary"].median())
-print(clean_data)
+print(clean_data[["Age", "Salary"]].isna().sum())
 
 #6.
 clean_data["Hire Date"] = pd.to_datetime(
@@ -103,6 +101,8 @@ clean_data["Hire Date"] = pd.to_datetime(
 print(clean_data)
 
 #7.
-clean_data["Name"] = clean_data["Name"].astype(str).str.strip().str.upper()
-clean_data["Department"] = clean_data["Department"].astype(str).str.strip().str.upper()
+clean_data["Name"] = clean_data["Name"].astype(str).str.strip()
+clean_data["Department"] = (
+    clean_data["Department"].astype(str).str.strip().str.upper()
+)
 print(clean_data)
